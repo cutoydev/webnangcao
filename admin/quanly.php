@@ -11,18 +11,17 @@
 <body>
     <div class="container">
         <section class="myheader">
-            <p class="text-start fw-bold fs-4">Xin chào...</p>
+        <?php
+            include("division_admin/headerql.php");
+            ?>
         </section>
         <section class="main">
             <div class="container text-center">
                 <div class="row align-items-start">
                   <div class="col-md-4">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action">Tổng Quan</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-primary">Danh Mục</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">Tin Tức</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-dark">Admin</a>
-                    </div>
+                  <?php
+            include("division_admin/sidebar.php");
+            ?>
                   </div>
                   <div class="col-md-7">
                     <h4>Xin chào bạn với trang quản trị</h4>

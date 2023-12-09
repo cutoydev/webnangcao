@@ -11,59 +11,80 @@
 <body>
     <div class="container">
         <section class="myheader">
-            <p class="text-start fw-bold fs-4">Xin chào...</p>
+        <?php
+            include("division_admin/headerql.php");
+            ?>
         </section>
         <section class="main">
             <div class="container text-center">
                 <div class="row align-items-start">
                   <div class="col-md-2">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action">Tổng Quan</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-primary">Danh Mục</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">Tin Tức</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-dark">Admin</a>
-                    </div>
+                  <?php
+            include("division_admin/sidebar.php");
+            ?>
                   </div>
                   <div class="col-md-10">
-                    <h4>Danh sách quản trị viên <button type="button" class="btn btn-info">Thêm</button></h4>
+                    <h4>Danh sách bài đăng <a href="thembai.php"><button type="button" class="btn btn-info">Thêm</button></a></h4>
+                    <form action="tim_new.php" method="get">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Bạn muốn tìm gì" aria-label="Bạn muốn tìm gì" aria-describedby="basic-addon2" name="search">
+                      <input type="submit" class="input-group-text" id="basic-addon2" name="btnsearch"  value="Tìm kiếm">
+                    </div>
+                  </form>
                     <table class="table">
                       <thead>
                         <tr>
                           <th scope="col">Stt</th>
                           <th scope="col">Id</th>
-                          <th scope="col">Usedname</th>
-                          <th scope="col">Password</th>
+                          <th scope="col">Tiêu đề</th>
+                          <th scope="col">Danh mục</th>
+                          <th scope="col">Ngày đăng</th>
+                          <th scope="col">Người đăng</th>
                           <th scope="col">Hành động</th>
                         </tr>
                       </thead>
                       <tbody>
+                       
+                      <?php
+                        require("division_admin/connection.php");
+                        $sql_hien ="SELECT * FROM new";
+                        $result =mysqli_query($conn,$sql_hien);
+
+                        if ($result->num_rows > 0) {
+                            // output data of each row
+                            $i=1;
+                            while($row = $result->fetch_assoc()) {
+                             
+                                
+                        ?>
                         <tr>
-                          <th scope="row">1</th>
-                          <td>58</td>
-                          <td>nguyencaotran</td>
-                          <td>nguyen2003</td>
+                          <th scope="row"><?php   echo $i++ ?></th>
+                          <td><?php echo $row["nid"]  ?></td>
+                          <td><?php   echo $row["ntitle"] ?></td>
+                          <td><?php if($row["caid"]==1) 
+                           {
+                            echo"Tin Tức";
+                          }elseif($row["caid"]==2) 
+                          {
+                           echo"Xã hội";
+                         }else 
+                         {
+                          echo"Giải trí";
+                        }
+                            ?></td>
+                          <td><?php   echo $row["ndate"] ?></td>
+                          <td><?php   echo $row["nauthor"] ?></td>
                           <td><div class="d-grid gap-2 d-md-block">
-                            <button class="btn btn-primary" type="button">Xoá</button>
+                          <a href="sua_news.php?id=<?php echo $row['nid']; ?>&author=<?php echo $row['nauthor']; ?>&title=<?php echo urlencode($row['ntitle']); ?>&content=<?php echo urlencode($row['ncontent']); ?>&caid=<?php echo $row['caid']; ?>"><button class="btn btn-success" type="button">Sửa</button></a>
+
+
+                            <a href="funtion_admin/xoa_news.php?id=<?php echo $row['nid'];?>" ><button class="btn btn-primary" type="button">Xoá</button></a>
                           </div></td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>48</td>
-                          <td>nguyenhopphuc</td>
-                          <td>hopkaka</td>
-                          <td><div class="d-grid gap-2 d-md-block">
-                            <button class="btn btn-primary" type="button">Xoá</button>
-                          </div></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>79</td>
-                          <td>quyettranvan</td>
-                          <td>quyethoka</td>
-                          <td><div class="d-grid gap-2 d-md-block">
-                            <button class="btn btn-primary" type="button">Xoá</button>
-                          </div></td>
-                        </tr>
+                        <?php
+                          
+                            } }
+                        ?>
                       </tbody>
                     </table>
                     <nav aria-label="Page navigation example">
